@@ -27,9 +27,8 @@ public class TeamService {
     public TeamService() {
     }
 
-    public String save(Team team){
-        logger.debug("saving->\t"+ JSON.toJSONString(team));
-        return team.getId();
+    public int save(Team team){
+        return teamMapper.add(team);
     }
 
     public List<Team> getAll(){

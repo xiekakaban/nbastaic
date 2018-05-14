@@ -69,6 +69,10 @@ public class TeamPipeline implements Pipeline<TeamBean>,ApplicationContextAware{
             teamList.add(generateTeam(teamItem,"已退役",false));
         }
 
+        for(Team item : teamList){
+            teamService.save(item);
+        }
+
         logger.debug(JSON.toJSONString(teamList,true));
 
     }

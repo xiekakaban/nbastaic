@@ -27,4 +27,17 @@ public class TeamController {
     private List<Team> getAllTeam(){
         return teamService.getAll();
     }
+
+    @GetMapping("/add")
+    private int add(){
+        Team team = new Team();
+        team.setPosition("中部");
+        team.setImgUrl("asdas.jpg");
+        team.setName("华强北");
+        team.setIsCurrent(Boolean.FALSE);
+        team.setUrl("wasd.asda.com");
+        return teamService.save(team);
+
+    }
+
 }

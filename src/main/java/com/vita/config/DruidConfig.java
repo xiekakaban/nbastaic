@@ -62,6 +62,7 @@ public class DruidConfig {
     }
 
     //配置 stat 用于统计数据库操作
+    @Bean
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean frbean = new FilterRegistrationBean();
         frbean.setFilter(new WebStatFilter());

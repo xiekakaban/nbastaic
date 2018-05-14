@@ -7,6 +7,6 @@
         SELECT * from tb_team
     </select>
     <insert id="add" parameterType="Team">
-      insert INTO tb_team VALUES (#{tm.id},#{tm.name},#{tm.url},#{tm.isCurrent},#{tm.imgUrl},#{tm.position})
+        insert INTO tb_team VALUES (#{tm.id},#{tm.name},#{tm.url},#{tm.isCurrent},#{tm.imgUrl},#{tm.position})
     </insert>
 </mapper>

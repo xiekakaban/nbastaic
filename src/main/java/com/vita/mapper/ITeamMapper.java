@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Mapper
 public interface ITeamMapper {
-    void add(@Param("tm") Team team);
+    int add(@Param("tm") Team team);
     List<Team> getAll();
 }
