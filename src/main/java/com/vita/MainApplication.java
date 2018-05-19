@@ -1,7 +1,5 @@
 package com.vita;
 
-import com.vita.fetch.MatchFetch;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * Created by bobo on 2018/5/8.
@@ -22,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @SpringBootApplication
 @ComponentScan({"com.geccocrawler.gecco.spring","com.vita"})
 @EnableScheduling
+//这里用的是tk的MapperScan
 @MapperScan("com.vita.mapper")
 public class MainApplication {
     private static final Logger logger = LoggerFactory.getLogger(MainApplication.class);

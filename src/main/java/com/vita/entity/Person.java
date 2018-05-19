@@ -1,5 +1,8 @@
 package com.vita.entity;
 
+import com.vita.fetchbean.PersonBean;
+
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -7,7 +10,8 @@ import java.util.Date;
  *
  * @email ruantianbo@163.com
  */
-public class Person {
+@Table(name="tb_person")
+public abstract class Person {
 
     String id;
     String cName; //中文名
@@ -18,6 +22,7 @@ public class Person {
     String highSchool;
     String university;
     String url;
+
 
 
     public Person() {
@@ -86,4 +91,6 @@ public class Person {
     public void setUniversity(String university) {
         this.university = university;
     }
+
+
 }

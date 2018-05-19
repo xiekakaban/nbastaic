@@ -5,6 +5,7 @@ import com.geccocrawler.gecco.request.HttpGetRequest;
 import com.geccocrawler.gecco.request.HttpRequest;
 import com.geccocrawler.gecco.spring.SpringPipelineFactory;
 import com.vita.util.SpringUtil;
+import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import java.util.List;
 public class FetchController {
 
     private static final String TEAMBASHURL = "http://www.stat-nba.com/playerList.php?il=";
+    private static final String MATCHBASEURL = "http://www.stat-nba.com/gameList_simple-";//http://www.stat-nba.com/gameList_simple-2017-05.html
     @GetMapping("/team")
     @ResponseBody
     public ResponseEntity<String> fetchTeam(){
@@ -52,11 +54,34 @@ public class FetchController {
         GeccoEngine.create()
                 .pipelineFactory(springPipelineFactory)
                 .classpath("com.vita")
-                .start(fetchUrl)
+                .start("http://www.stat-nba.com/gameList_simple-2017-05.html")
                 .loop(false)
+                .thread(10)
                 .run();
         return new ResponseEntity("fetch Team works fine",HttpStatus.OK);
     }
+
+    @GetMapping("/match")
+    @ResponseBody
+    public ResponseEntity<String> fetchMatch(){
+        int[] years = new int[]{2017};
+        List<HttpRequest> fetchUrl = new ArrayList<>();
+        for(int year : years){
+            for(int i=1;i<=12;i++){
+                fetchUrl.add(new HttpGetRequest(MATCHBASEURL+year+"-"+i+".html"));
+            }
+        }
+        SpringPipelineFactory springPipelineFactory = SpringUtil.getBean("springPipelineFactory");
+        GeccoEngine.create()
+                .pipelineFactory(springPipelineFactory)
+                .classpath("com.vita")
+                .start("http://www.stat-nba.com/gameList_simple-2018-05.html")
+                .loop(false)
+                .thread(10)
+                .run();
+        return new ResponseEntity("fetch Match works fine",HttpStatus.OK);
+    }
+
 
     public static void main(String[] args){
         HttpGetRequest start = new HttpGetRequest("http://www.baidu.com/");
