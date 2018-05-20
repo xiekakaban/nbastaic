@@ -11,7 +11,7 @@ public class Match {
 
     String id;
     String homeId; //主队
-    String visiting; //客队
+    String visitingId; //客队
 
     String homeCoachId; //主队教练
     String visithingCoachId; //客队教练
@@ -29,7 +29,7 @@ public class Match {
     //    }
     String scoreDet;
 
-    String videoDet; //视频摘要
+    String videoDet; //视频摘要,暂无
 
     public String getId() {
         return id;
@@ -47,12 +47,12 @@ public class Match {
         this.homeId = homeId;
     }
 
-    public String getVisiting() {
-        return visiting;
+    public String getVisitingId() {
+        return visitingId;
     }
 
-    public void setVisiting(String visiting) {
-        this.visiting = visiting;
+    public void setVisitingId(String visitingId) {
+        this.visitingId = visitingId;
     }
 
     public String getHomeCoachId() {
