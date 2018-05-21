@@ -25,7 +25,7 @@ public class TeamController {
     @ResponseBody
     @GetMapping("/all")
     private List<Team> getAllTeam(){
-        return teamService.getAll();
+        return teamService.selectAll();
     }
 
     @GetMapping("/add")
@@ -36,7 +36,7 @@ public class TeamController {
         team.setName("华强北");
         team.setIsCurrent(Boolean.FALSE);
         team.setUrl("wasd.asda.com");
-        return teamService.save(team);
+        return teamService.insert(team);
 
     }
 

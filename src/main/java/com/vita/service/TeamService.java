@@ -1,12 +1,14 @@
 package com.vita.service;
 
 import com.alibaba.fastjson.JSON;
+import com.vita.basemapper.IMapper;
 import com.vita.entity.Team;
 import com.vita.mapper.ITeamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
  */
 @Service("teamService")
 @Transactional
-public class TeamService {
+public class TeamService extends AbstractService<Team>{
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     @Autowired
@@ -27,14 +29,20 @@ public class TeamService {
     public TeamService() {
     }
 
-    public int save(Team team){
-        return teamMapper.add(team);
+    public Team getByUrl(String url){
+        Example example = new Example(Team.class);
+        example.createCriteria().andEqualTo("url",url);
+        return getIMapper().selectOneByExample(example);
     }
 
-    public List<Team> getAll(){
-        return teamMapper.getAll();
+    public Team getByUrlLike(String url){
+        Example example = new Example(Team.class);
+        example.createCriteria().andLike("url","%"+url+"%");
+        return getIMapper().selectOneByExample(example);
     }
 
-
-
+    @Override
+    public IMapper<Team> getIMapper() {
+        return teamMapper;
+    }
 }

@@ -70,7 +70,7 @@ public class TeamPipeline implements Pipeline<TeamBean>,ApplicationContextAware{
         }
 
         for(Team item : teamList){
-            teamService.save(item);
+            teamService.insert(item);
         }
 
         logger.debug(JSON.toJSONString(teamList,true));

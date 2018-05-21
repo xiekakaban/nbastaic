@@ -5,10 +5,11 @@ package com.vita.entity;
  *
  * @email ruantianbo@163.com
  */
-public class MatchPlayer {
+public class MatchPlayer extends MatchDetail{
 
 
     private String playerId;
+    private String teamId;
     private String matchId;
 
     private Integer sf; //首发
@@ -50,5 +51,13 @@ public class MatchPlayer {
 
     public void setSj(Integer sj) {
         this.sj = sj;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 }

@@ -1,5 +1,7 @@
 package com.vita.mapper;
 
+import com.vita.basemapper.IMapper;
+import com.vita.entity.Player;
 import com.vita.entity.Team;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +15,6 @@ import java.util.List;
  * @email ruantianbo@163.com
  */
 @Mapper
-public interface ITeamMapper {
-    int add(@Param("tm") Team team);
-    List<Team> getAll();
+public interface ITeamMapper extends IMapper<Team> {
+
 }
