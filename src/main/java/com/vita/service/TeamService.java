@@ -41,6 +41,10 @@ public class TeamService extends AbstractService<Team>{
         return getIMapper().selectOneByExample(example);
     }
 
+    public List<Team> getCurrentTeam(){
+        return teamMapper.getCurrentTeam();
+    }
+
     @Override
     public IMapper<Team> getIMapper() {
         return teamMapper;
