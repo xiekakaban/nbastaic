@@ -10,7 +10,6 @@ import java.util.Date;
  *
  * @email ruantianbo@163.com
  */
-@Table(name="tb_person")
 public abstract class Person {
 
     String id;

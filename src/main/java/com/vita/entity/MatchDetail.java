@@ -7,7 +7,7 @@ package com.vita.entity;
  */
 public abstract class MatchDetail {
 
-
+    protected String id;
     private Double tl;  //投篮
     private Integer mz; //命中
     private Integer cs; //出手
@@ -28,6 +28,14 @@ public abstract class MatchDetail {
     private Integer sw; //失误
     private Integer fg; //犯规
     private Integer df; //得分
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Double getTl() {
         return tl;
@@ -180,4 +188,5 @@ public abstract class MatchDetail {
     public void setDf(Integer df) {
         this.df = df;
     }
+
 }

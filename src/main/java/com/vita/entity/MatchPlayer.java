@@ -1,10 +1,15 @@
 package com.vita.entity;
 
+import com.vita.util.GenerateId;
+
+import javax.persistence.Table;
+
 /**
  * Created by bobo on 2018/5/19.
  *
  * @email ruantianbo@163.com
  */
+@Table(name="tb_match_p")
 public class MatchPlayer extends MatchDetail{
 
 
@@ -18,6 +23,7 @@ public class MatchPlayer extends MatchDetail{
 
 
     public MatchPlayer() {
+        this.id = GenerateId.generate();
     }
 
 

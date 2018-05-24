@@ -1,10 +1,15 @@
 package com.vita.entity;
 
+import com.vita.util.GenerateId;
+
+import javax.persistence.Table;
+
 /**
  * Created by bobo on 2018/5/19.
  *
  * @email ruantianbo@163.com
  */
+@Table(name="tb_match_t")
 public class MatchTeam extends MatchDetail{
 
 
@@ -15,6 +20,7 @@ public class MatchTeam extends MatchDetail{
     private Integer cc;  //出场
 
     public MatchTeam() {
+        this.id = GenerateId.generate();
     }
 
 

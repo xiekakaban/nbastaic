@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  *
  * @email ruantianbo@163.com
  */
-@Table(name="tb_person")
+@Table(name="tb_player")
 public class Player extends Person{
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
     private static final Logger logger = LoggerFactory.getLogger(Player.class);
@@ -24,7 +24,6 @@ public class Player extends Person{
     Integer weight;
     String cloth; //球衣号码
     String talentShow; //选秀
-    String ctype = "P";
 
     public Player() {
     }
@@ -80,7 +79,7 @@ public class Player extends Person{
             this.eName = names[0];
         }
 
-        this.capital = playerBean.getCapital();
+        this.capital = eName.substring(0,1).toUpperCase();
         try {
             this.birthday = dateFormat.parse(playerBean.getBirthday());
         } catch (ParseException e) {

@@ -25,9 +25,13 @@ public class MatchAssociationHtmlBean implements HtmlBean{
 
     private Match matche;
 
-    private List<MatchPlayer> matchPlayers;
+    private List<MatchPlayer> matchHomePlayers;
 
-    private List<MatchTeam> matchTeams;
+    private List<MatchPlayer> matchVisitingPlayers;
+
+    private MatchTeam homeTeam;
+
+    private MatchTeam visitingTeam;
 
     public MatchAssociationHtmlBean() {
 
@@ -49,19 +53,35 @@ public class MatchAssociationHtmlBean implements HtmlBean{
         this.matche = matche;
     }
 
-    public List<MatchPlayer> getMatchPlayers() {
-        return matchPlayers;
+    public List<MatchPlayer> getMatchHomePlayers() {
+        return matchHomePlayers;
     }
 
-    public void setMatchPlayers(List<MatchPlayer> matchPlayers) {
-        this.matchPlayers = matchPlayers;
+    public void setMatchHomePlayers(List<MatchPlayer> matchHomePlayers) {
+        this.matchHomePlayers = matchHomePlayers;
     }
 
-    public List<MatchTeam> getMatchTeams() {
-        return matchTeams;
+    public List<MatchPlayer> getMatchVisitingPlayers() {
+        return matchVisitingPlayers;
     }
 
-    public void setMatchTeams(List<MatchTeam> matchTeams) {
-        this.matchTeams = matchTeams;
+    public void setMatchVisitingPlayers(List<MatchPlayer> matchVisitingPlayers) {
+        this.matchVisitingPlayers = matchVisitingPlayers;
+    }
+
+    public MatchTeam getVisitingTeam() {
+        return visitingTeam;
+    }
+
+    public void setVisitingTeam(MatchTeam visitingTeam) {
+        this.visitingTeam = visitingTeam;
+    }
+
+    public MatchTeam getHomeTeam() {
+        return homeTeam;
+    }
+
+    public void setHomeTeam(MatchTeam homeTeam) {
+        this.homeTeam = homeTeam;
     }
 }

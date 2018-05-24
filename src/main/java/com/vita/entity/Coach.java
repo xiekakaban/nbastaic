@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  *
  * @email ruantianbo@163.com
  */
-@Table(name="tb_person")
+@Table(name="tb_coach")
 public class Coach extends Person {
     private static final Logger logger = LoggerFactory.getLogger(Coach.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
@@ -25,7 +25,6 @@ public class Coach extends Person {
     String chimpion;
     String bestCoach;
 
-    String ctype = "C";
 
     public Coach() {
     }
@@ -81,7 +80,7 @@ public class Coach extends Person {
             this.eName = names[0];
         }
 
-        this.capital = coachBean.getCapital();
+        this.capital = eName.substring(0,1).toUpperCase();
         try {
             this.birthday = dateFormat.parse(coachBean.getBirthday());
         } catch (ParseException e) {

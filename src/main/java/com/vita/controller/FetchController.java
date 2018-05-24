@@ -47,14 +47,14 @@ public class FetchController {
     @ResponseBody
     public ResponseEntity<String> fetchPlayer(){
         List<HttpRequest> fetchUrl = new ArrayList<>();
-        for(int i='A';i<='Z';i++){
+        for(int i='Z';i<='Z';i++){
             fetchUrl.add(new HttpGetRequest(TEAMBASHURL+(char)i));
         }
         SpringPipelineFactory springPipelineFactory = SpringUtil.getBean("springPipelineFactory");
         GeccoEngine.create()
                 .pipelineFactory(springPipelineFactory)
                 .classpath("com.vita")
-                .start("http://www.stat-nba.com/gameList_simple-2017-05.html")
+                .start(fetchUrl)
                 .loop(false)
                 .thread(10)
                 .run();
@@ -75,7 +75,7 @@ public class FetchController {
         GeccoEngine.create()
                 .pipelineFactory(springPipelineFactory)
                 .classpath("com.vita")
-                .start("http://www.stat-nba.com/gameList_simple-2018-05.html")
+                .start(fetchUrl)
                 .loop(false)
                 .thread(10)
                 .run();

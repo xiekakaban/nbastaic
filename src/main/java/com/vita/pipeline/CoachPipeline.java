@@ -30,9 +30,9 @@ public class CoachPipeline implements Pipeline<CoachBean> {
     @Override
     public void process(CoachBean bean) {
 //        logger.debug(JSON.toJSONString(bean));
-        bean.setUrl(bean.getRequest().getUrl());
+        String url = bean.getRequest().getUrl();
+        bean.setUrl(url.substring(0,url.lastIndexOf("?")));
         Coach coach = new Coach().generateFromCoachBean(bean);
         coachService.insert(coach);
-
     }
 }

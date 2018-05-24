@@ -1,6 +1,7 @@
 package com.vita.pipeline;
 
 import com.alibaba.fastjson.JSON;
+import com.geccocrawler.gecco.annotation.Gecco;
 import com.geccocrawler.gecco.annotation.PipelineName;
 import com.geccocrawler.gecco.annotation.Request;
 import com.geccocrawler.gecco.pipeline.Pipeline;
@@ -30,6 +31,7 @@ public class MatchPipeline implements Pipeline<MatchAssociationHtmlBean> {
 
     private static final Logger logger = LoggerFactory.getLogger(MatchPipeline.class);
 
+
     @Autowired
     @Qualifier("playerService")
     private PlayerService playerService;
@@ -44,73 +46,106 @@ public class MatchPipeline implements Pipeline<MatchAssociationHtmlBean> {
 
     @Autowired
     private MatchService matchService;
+
     @Autowired
     private MatchPlayerService matchPlayerService;
+
     @Autowired
     private MatchTeamService matchTeamService;
+
 
 
     @Override
     @Transactional
     public void process(MatchAssociationHtmlBean bean) {
         List<HttpRequest> willReFetchs = validMatch(bean);
-        if(validMatch(bean).size() == 0){
+        if(willReFetchs.size() == 0){
             //works fine
             matchService.insert(bean.getMatche());
-            matchPlayerService.insertList(bean.getMatchPlayers());
-            matchTeamService.insertList(bean.getMatchTeams());
+            matchPlayerService.insertList(bean.getMatchHomePlayers());
+            matchPlayerService.insertList(bean.getMatchVisitingPlayers());
+            matchTeamService.insert(bean.getHomeTeam());
+            matchTeamService.insert(bean.getVisitingTeam());
         } else{
             for(HttpRequest failurRequest : willReFetchs){
+                DeriveSchedulerContext.into(failurRequest);
                 logger.warn("will fetch again: " + failurRequest.getUrl());
             }
         }
     }
 
-    private List<HttpRequest> validMatch(MatchAssociationHtmlBean bean){
-        List<HttpRequest> failureRequest = new ArrayList<>();
-        HttpRequest request =  bean.getRequest();
-        String visitingUrl = bean.getMatche().getVisitingId();
-        String homeUrl = bean.getMatche().getHomeId();
-        Team homeTeam = teamService.getByUrlLike("."+homeUrl);
-        Team visitingTeam = teamService.getByUrlLike("."+visitingUrl);
+    private List<HttpRequest> validMatch(MatchAssociationHtmlBean bean) {
+        try {
+            List<HttpRequest> failureRequest = new ArrayList<>();
+            HttpRequest request = bean.getRequest();
+            String visitingUrl = bean.getMatche().getVisitingId();
+            String homeUrl = bean.getMatche().getHomeId();
+            Team homeTeam = teamService.getByUrl("http://www.stat-nba.com" + homeUrl);
+            Team visitingTeam = teamService.getByUrl("http://www.stat-nba.com" + visitingUrl);
 
-        if(homeTeam == null){
-            failureRequest.add(request.subRequest(homeUrl));
-        } else{
-            bean.getMatche().setHomeId(homeTeam.getId());
-        }
-        if(visitingTeam == null){
-            failureRequest.add(request.subRequest(visitingUrl));
-        }else{
-            bean.getMatche().setVisitingId(visitingTeam.getId());
-        }
-
-        String visitingCoachuUrl = bean.getMatche().getVisithingCoachId();
-        String homeCoachUrl = bean.getMatche().getHomeCoachId();
-        Coach visitingCoach = coachService.getByUrlLike(visitingCoachuUrl);
-        Coach homeCoach = coachService.getByUrlLike(homeCoachUrl);
-        if(homeCoach == null){
-            failureRequest.add(request.subRequest(homeCoachUrl));
-        } else{
-            bean.getMatche().setHomeCoachId(homeCoach.getId());
-        }
-        if(visitingCoach == null){
-            failureRequest.add(request.subRequest(visitingCoachuUrl));
-        } else{
-            bean.getMatche().setVisithingCoachId(visitingCoach.getId());
-        }
-
-        Player pTemp;
-        for(MatchPlayer mp : bean.getMatchPlayers()){
-            pTemp = playerService.getByUrlLike(mp.getPlayerId());
-            if (pTemp == null){
-                failureRequest.add(request.subRequest(mp.getPlayerId()));
-            }else{
-                mp.setPlayerId(pTemp.getId());
+            if (homeTeam == null) {
+                logger.warn("error for:" + homeUrl);
+                failureRequest.add(request.subRequest("http://www.stat-nba.com" + homeUrl));
+                return failureRequest;
+            } else {
+                bean.getMatche().setHomeId(homeTeam.getId());
+                bean.getHomeTeam().setTeamId(homeTeam.getId());
             }
-        }
+            if (visitingTeam == null) {
+                logger.warn("error for:" + visitingUrl);
+                failureRequest.add(request.subRequest("http://www.stat-nba.com" + visitingUrl));
+                return failureRequest;
+            } else {
+                bean.getMatche().setVisitingId(visitingTeam.getId());
+                bean.getVisitingTeam().setTeamId(visitingTeam.getId());
+            }
 
-        return failureRequest;
+            String visitingCoachuUrl = bean.getMatche().getVisitingCoachId();
+            String homeCoachUrl = bean.getMatche().getHomeCoachId();
+
+            Coach visitingCoach = coachService.getByUrl("http://www.stat-nba.com" + visitingCoachuUrl);
+            Coach homeCoach = coachService.getByUrl("http://www.stat-nba.com" + homeCoachUrl);
+            if (homeCoach == null) {
+                logger.warn("error for:" + homeCoachUrl);
+                failureRequest.add(request.subRequest(homeCoachUrl));
+            } else {
+                bean.getMatche().setHomeCoachId(homeCoach.getId());
+            }
+            if (visitingCoach == null) {
+                logger.warn("error for:" + visitingCoachuUrl);
+                failureRequest.add(request.subRequest(visitingCoachuUrl));
+            } else {
+                bean.getMatche().setVisitingCoachId(visitingCoach.getId());
+            }
+
+            Player pTemp;
+            for (MatchPlayer mp : bean.getMatchHomePlayers()) {
+                pTemp = playerService.getByUrl("http://www.stat-nba.com" + mp.getPlayerId());
+                if (pTemp == null) {
+                    logger.warn("error for:" + mp.getPlayerId());
+                    failureRequest.add(request.subRequest("http://www.stat-nba.com"+mp.getPlayerId()+"?capital=9"));
+                } else {
+                    mp.setPlayerId(pTemp.getId());
+                    mp.setTeamId(homeTeam.getId());
+                }
+            }
+
+            for (MatchPlayer mp : bean.getMatchVisitingPlayers()) {
+                pTemp = playerService.getByUrl("http://www.stat-nba.com" + mp.getPlayerId());
+                if (pTemp == null) {
+                    logger.warn("error for:" + mp.getPlayerId());
+                    failureRequest.add(request.subRequest("http://www.stat-nba.com" + mp.getPlayerId()+"?capital=9"));
+                } else {
+                    mp.setPlayerId(pTemp.getId());
+                    mp.setTeamId(visitingTeam.getId());
+                }
+            }
+            return failureRequest;
+        }catch (Exception ex){
+            logger.error("error while fetch:"+bean.getRequest().getUrl());
+            return new ArrayList<HttpRequest>();
+        }
     }
+
 
 }

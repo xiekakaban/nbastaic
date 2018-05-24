@@ -28,6 +28,5 @@ public class PersonPipeline implements Pipeline<PersonBean>{
         for(String item: bean.getCoachUrl()){
             DeriveSchedulerContext.into(bean.getRequest().subRequest(item+"?capital="+bean.getCapital()));
         }
-
     }
 }

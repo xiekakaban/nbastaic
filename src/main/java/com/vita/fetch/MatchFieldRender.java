@@ -61,7 +61,7 @@ public class MatchFieldRender implements CustomFieldRender {
 
         String DateStr = doc.select("div[style='float: left;margin-top: 25px;margin-left: 10px;font-size: 16px;font-weight: bold;color: #009CFF']").first().ownText();
         try{
-            m.setHappendTime(sdf.parse(DateStr));
+            m.setHappenedTime(sdf.parse(DateStr));
         }catch (Exception ex){
             logger.error("error while formate match happendTime for: "+request.getUrl());
         }
@@ -102,7 +102,7 @@ public class MatchFieldRender implements CustomFieldRender {
 //        }
 
         m.setHomeCoachId(doc.select(".detail a[href^='/coach']").get(1).attr("href"));
-        m.setVisithingCoachId(doc.select(".detail a[href^='/coach']").get(0).attr("href"));
+        m.setVisitingCoachId(doc.select(".detail a[href^='/coach']").get(0).attr("href"));
 
         Map<String,List<String>> scoresMap = new HashMap<>();
         Elements homeTds = doc.select(".basic>.scorebox>.table").get(1).select("tbody>tr>td.number");
@@ -125,9 +125,9 @@ public class MatchFieldRender implements CustomFieldRender {
 
         List<MatchPlayer> matchPlayers = new ArrayList<>();
         Elements visitingMatchPlayerTrs = doc.select(".detail>div.stat_box").get(0).select("table.stat_box>tbody>tr.sort");
-        matchPlayers.addAll(initMatchPlayer(visitingMatchPlayerTrs,m,Boolean.TRUE));
+        beanMap.put("matchVisitingPlayers",initMatchPlayer(visitingMatchPlayerTrs,m,Boolean.TRUE));
         Elements homeMatchPlayerTrs = doc.select(".detail>div.stat_box").get(1).select("table.stat_box>tbody>tr.sort");
-        matchPlayers.addAll(initMatchPlayer(homeMatchPlayerTrs,m,Boolean.FALSE));
+        beanMap.put("matchHomePlayers",initMatchPlayer(homeMatchPlayerTrs,m,Boolean.FALSE));
 //        Player pTemp;
 //        for(MatchPlayer mp : matchPlayers){
 //            pTemp = playerService.getByUrl(mp.getPlayerId());
@@ -146,9 +146,8 @@ public class MatchFieldRender implements CustomFieldRender {
 
         Element visitingTeamDet = doc.select(".detail>div.stat_box").get(0).select("table.stat_box>tbody>tr.team_all_content").first();
         Element homeTeamDet = doc.select(".detail>div.stat_box").get(1).select("table.stat_box>tbody>tr.team_all_content").first();
-        List<MatchTeam> matchTeams = new ArrayList<>();
-        matchTeams.add(initMatchTeam(homeTeamDet,m,Boolean.FALSE));
-        beanMap.put("matchTeams",matchTeams);
+        beanMap.put("homeTeam",initMatchTeam(homeTeamDet,m,Boolean.FALSE));
+        beanMap.put("visitingTeam",initMatchTeam(homeTeamDet,m,Boolean.TRUE));
         logger.debug(beanMap.toString());
     }
 

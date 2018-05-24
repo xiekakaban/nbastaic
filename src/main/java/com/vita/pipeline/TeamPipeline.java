@@ -79,9 +79,9 @@ public class TeamPipeline implements Pipeline<TeamBean>,ApplicationContextAware{
 
     private Team generateTeam(Element teamItem,String pos,Boolean isCurrent){
         Team t = new Team();
-        t.setUrl(teamItem.getElementsByTag("a").get(0).attr("href"));
+        t.setUrl("http://www.stat-nba.com"+teamItem.getElementsByTag("a").get(0).attr("href").substring(1));
         t.setName(teamItem.select("a div").get(0).text());
-        t.setImgUrl(teamItem.select("a>img").get(0).attr("src"));
+        t.setImgUrl("http://www.stat-nba.com"+teamItem.select("a>img").get(0).attr("src"));
         t.setPosition(pos);
         t.setIsCurrent(isCurrent);
         return t;

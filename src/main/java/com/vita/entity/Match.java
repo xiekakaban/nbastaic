@@ -1,5 +1,6 @@
 package com.vita.entity;
 
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -7,6 +8,7 @@ import java.util.Date;
  *
  * @email ruantianbo@163.com
  */
+@Table(name="tb_match")
 public class Match {
 
     String id;
@@ -14,10 +16,10 @@ public class Match {
     String visitingId; //客队
 
     String homeCoachId; //主队教练
-    String visithingCoachId; //客队教练
+    String visitingCoachId; //客队教练
 
     String season; //赛季, 赛季类型
-    Date happendTime;
+    Date happenedTime;
 
     Integer homeScore;
     Integer visitingScore;
@@ -63,12 +65,12 @@ public class Match {
         this.homeCoachId = homeCoachId;
     }
 
-    public String getVisithingCoachId() {
-        return visithingCoachId;
+    public String getVisitingCoachId() {
+        return visitingCoachId;
     }
 
-    public void setVisithingCoachId(String visithingCoachId) {
-        this.visithingCoachId = visithingCoachId;
+    public void setVisitingCoachId(String visitingCoachId) {
+        this.visitingCoachId = visitingCoachId;
     }
 
     public String getSeason() {
@@ -79,12 +81,12 @@ public class Match {
         this.season = season;
     }
 
-    public Date getHappendTime() {
-        return happendTime;
+    public Date getHappenedTime() {
+        return happenedTime;
     }
 
-    public void setHappendTime(Date happendTime) {
-        this.happendTime = happendTime;
+    public void setHappenedTime(Date happenedTime) {
+        this.happenedTime = happenedTime;
     }
 
     public Integer getHomeScore() {

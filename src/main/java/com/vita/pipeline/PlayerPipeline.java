@@ -23,13 +23,17 @@ import org.springframework.stereotype.Service;
 public class PlayerPipeline implements Pipeline<PlayerBean> {
     private static final Logger logger = LoggerFactory.getLogger(PlayerPipeline.class);
 
+
     @Autowired
     private PlayerService playerService;
 
     @Override
     public void process(PlayerBean bean) {
-        bean.setUrl(bean.getRequest().getUrl());
+
+        String url = bean.getRequest().getUrl();
+        bean.setUrl(url.substring(0,url.lastIndexOf("?")));
         Player palyer = new Player().generateFromPlayerBean(bean);
+
         playerService.insert(palyer);
     }
 }
