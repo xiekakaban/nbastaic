@@ -41,6 +41,11 @@ public class TeamService extends AbstractService<Team>{
         return getIMapper().selectOneByExample(example);
     }
 
+    public List<Team> getPerTeamsOrderByUrl(Integer currPage,Integer pageSize,String sort,String orderType){
+        return teamMapper.getTeamByPageSorted(currPage,pageSize,sort,orderType);
+    }
+
+
     @Override
     public IMapper<Team> getIMapper() {
         return teamMapper;

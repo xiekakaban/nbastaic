@@ -32,20 +32,20 @@ public class MainApplication {
 
 
 
-    @Bean
-    public TaskScheduler taskScheduler(){
-        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(10);
-        taskScheduler.setThreadNamePrefix("springboot");
-        return taskScheduler;
-    }
-
-    public static void helpInfo(){
-        System.out.println("****************************************");
-        System.out.println("********1.爬取球员**********************");
-        System.out.println("********2.爬取赛程**********************");
-        System.out.println("********3.*******************************");
-        System.out.println("********4.*******************************");
-        System.out.println("****************************************");
-    }
+//    @Bean
+//    public TaskScheduler taskScheduler(){
+//        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+//        taskScheduler.setPoolSize(10);
+//        taskScheduler.setThreadNamePrefix("springboot");
+//        return taskScheduler;
+//    }
+//
+//    public static void helpInfo(){
+//        System.out.println("****************************************");
+//        System.out.println("********1.爬取球员**********************");
+//        System.out.println("********2.爬取赛程**********************");
+//        System.out.println("********3.*******************************");
+//        System.out.println("********4.*******************************");
+//        System.out.println("****************************************");
+//    }
 }

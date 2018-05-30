@@ -17,4 +17,5 @@ import java.util.List;
 @Mapper
 public interface ITeamMapper extends IMapper<Team> {
 
+    List<Team> getTeamByPageSorted(@Param("currPage") Integer currPage, @Param("pageSize") Integer pageSize,@Param("sort") String sort,@Param("orderType") String orderType);
 }

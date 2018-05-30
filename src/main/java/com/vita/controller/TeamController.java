@@ -1,12 +1,17 @@
 package com.vita.controller;
 
+import com.geccocrawler.gecco.annotation.RequestParameter;
+import com.vita.entity.ResultBack;
 import com.vita.entity.Team;
 import com.vita.service.TeamService;
+import com.vita.util.ResultBackUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -16,28 +21,25 @@ import java.util.List;
  * @email ruantianbo@163.com
  */
 @Controller
-@RequestMapping("/team")
+@RequestMapping("/teams")
 public class TeamController {
 
     @Autowired
     private TeamService teamService;
 
     @ResponseBody
-    @GetMapping("/all")
-    private List<Team> getAllTeam(){
-        return teamService.selectAll();
+    @GetMapping("/")
+    private ResultBack getAllTeam(){
+        List<Team> teams = teamService.selectAll();
+        return ResultBackUtil.success(teams);
     }
 
-    @GetMapping("/add")
-    private int add(){
-        Team team = new Team();
-        team.setPosition("中部");
-        team.setImgUrl("asdas.jpg");
-        team.setName("华强北");
-        team.setIsCurrent(Boolean.FALSE);
-        team.setUrl("wasd.asda.com");
-        return teamService.insert(team);
-
+    @ResponseBody
+    @GetMapping("/query")
+    private ResultBack getAllTeam(@RequestParam("currPage") Integer currPage, @RequestParam("pageSize") Integer pageSize,@RequestParam("sort") String sort,@RequestParam("order") String orderType){
+        List<Team> teams = teamService.getPerTeamsOrderByUrl(currPage,pageSize,sort,orderType);
+        return ResultBackUtil.success(teams);
     }
+
 
 }
